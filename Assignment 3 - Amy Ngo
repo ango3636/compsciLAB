@@ -1,0 +1,70 @@
+# CS 101 Lab
+# Assignment 3
+# Amy Ngo
+# anfgv@umsystem.edu
+
+# PROBLEM : guess what number the player is thinking of
+#
+# ALGORITHM : 
+# 1. ask player to input the number's remainder of 3, 5, and 7
+# 2. find what number has the same remainder of all the inputs the player put in
+# 3. tell them the number they are thinking of and ask them to play again
+# 4. if they want to play again, bring them back to the beginning of the game. if not, quit the game.
+
+# 
+# ERROR HANDLING:
+# - if they enter a number larger than 2 or less than 0 for the remainder of 3, then ask them again to input a valid number
+# - if they don't enter yes or no, keep asking the question if they want to play again
+
+print('Welcome to the Flarsheim Guesser!')
+print()
+print('Please think of a number between and including 1 and 100.')
+
+
+remain3 = int(input('What is the remainder when your number is divided by 3 ? '))
+
+while remain3 <0 or remain3 >2:
+    if remain3 < 0:
+        print('The value entered must be 0 or greater')
+    elif remain3 > 2:
+        print('The value entered must be less than 3')
+    remain3 = int(input('What is the remainder when your number is divided by 3 ? '))
+print()
+remain5 = int(input('What is the remainder when your number is divided by 5 ? '))
+print()
+remain7 = int(input('What is the remainder when your number is divided by 7 ? '))
+
+for i in range(1,101):
+    if i % 3 == remain3 and i % 5 == remain5 and i % 7 == remain7:
+        print("Your number was",i)
+        print("How amazing is that?")
+        print()
+play_again = input("Do you want to play again? Y to continue, N to quit ")
+
+while play_again:
+    if play_again == 'Y' or play_again == 'y':
+        print()
+        remain3 = int(input('What is the remainder when your number is divided by 3 ? '))
+        while remain3 <0 or remain3 >2:
+            if remain3 < 0:
+                print('The value entered must be 0 or greater')
+            elif remain3 > 2:
+                print('The value entered must be less than 3')
+            remain3 = int(input('What is the remainder when your number is divided by 3 ? '))
+        print()
+        remain5 = int(input('What is the remainder when your number is divided by 5 ? '))
+        print()
+        remain7 = int(input('What is the remainder when your number is divided by 7 ? '))
+
+        for i in range(1,101):
+            if i % 3 == remain3 and i % 5 == remain5 and i % 7 == remain7:
+                print("Your number was",i)
+                print("How amazing is that?")
+                print()
+
+        play_again = input("Do you want to play again? Y to continue, N to quit ")
+    elif play_again == 'N' or play_again == 'n':
+        break
+    else:
+        play_again = input("Do you want to play again? Y to continue, N to quit ")
+
