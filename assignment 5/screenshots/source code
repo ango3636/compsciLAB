@@ -1,0 +1,83 @@
+def get_school(input):
+    if input[5] == '1':
+        return 'School of Computing and Engineering SCE'
+    elif input[5] == '2':
+        return 'School of Law'
+    elif input[5] == '3':
+        return 'College of Arts and Sciences'
+    else:
+        return 'invalid school'
+
+def get_grade(input):
+    if input[6] == '1':
+        return 'Freshman'
+    elif input[6] == '2':
+        return 'Sophomore'
+    elif input[6] == '3':
+        return 'Junior'
+    elif input[6] == '4':
+        return 'Senior'
+    else:
+        return 'Invalid Grade'
+
+import string
+
+def character_value(input):
+    if input.isdigit() == True:
+        value =int(input)
+    else:
+        input = input.upper()
+        value = ord(input)
+        value =- 65
+    return value
+
+
+def get_check_digit(input):
+    total = 0
+    for i in range(len(input)):
+        digit = character_value(i)
+        total =+ digit  
+    return total % 10
+
+def verify_check_digit(input):
+    if len(input) != 10:
+        return False, 'The length of the number given must be 10'
+    for i in input[:5]:
+        if i.isalpha() == True:
+            continue
+        else:
+            return False, "The first 5 characters must be A-Z, the invalid character is at {} is {}".format((input.index(i)),i)
+    for i in input[7:]:
+        if i.isdigit() == True:
+            continue
+        else:
+            return False, "The last 5 characters must be 0-9, the invalid character is at {} is {}".format((input.index(i)),i)
+    if input[5] != '1' and input[5] != '2' and input[5] != '3':
+        return False, 'The sixth character must be 1 2 or 3'
+    if input[6] != '1' and input[6] != '2' and input[6] != '3' and input[6] != '4':
+        return False, 'The seventh character must be 1 2 3 or 4'
+    if input[9] != get_check_digit(input):
+        return False, "Check Digit {} does not match calculated value {}.".format(input, get_check_digit(input))
+    else:
+        return True
+
+if __name__ == "__main__":
+
+    print('{:^60}'.format('Linda Hall'))
+    print('{:^60}'.format('Library Card Check'))
+    print('='* 60)
+
+    while True:
+        user_input = input('Enter Library Card. Hit enter to Exit ')
+        if len(user_input) == 0:
+            break
+        validity, error_statment = verify_check_digit(user_input)
+        if validity == False:
+            print('Library card is invalid.')
+            print(error_statment)
+            print()
+        else:
+            print('Library card is valid')
+            print('The card belongs to a student in {}'.format(get_school(user_input)))
+            print('The card belongs to a {}'.format(get_grade(user_input)))
+
