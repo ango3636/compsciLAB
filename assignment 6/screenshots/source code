@@ -1,0 +1,66 @@
+def encode_string():
+    '''Caesar-encrypts string using specified key.'''
+    print()
+    initial = input('Enter (brief) text to encrypt: ')
+    upper_version = initial.upper()
+    the_shift = int(input('Enter the number to shift letters by: '))
+    encrpyted_word = ''
+    for i in upper_version:
+        if i == ' ':
+            space_value = ord(i)
+            i = chr(space_value - the_shift)
+        letter_to_num = ord(i)
+        new_letter = chr(the_shift + letter_to_num)
+        encrpyted_word += new_letter
+    return encrpyted_word
+
+def decode_string():
+    ''' Decrypts Caesar-encrypted string with specified key. '''
+    print()
+    initial = input('Enter (brief) text to decrypt: ')
+    upper_version = initial.upper()
+    the_shift = int(input('Enter the number to shift letters by: '))
+    encrpyted_word = ''
+    for i in upper_version:
+        if i == ' ':
+            space_value = ord(i)
+            i = chr(space_value + the_shift)
+        letter_to_num = ord(i)
+        new_letter = chr(letter_to_num - the_shift)
+        encrpyted_word += new_letter
+    return encrpyted_word
+
+def print_menu():
+    '''Prints menu. No user interaction. '''
+    print('MAIN MENU:')
+    print('1) Encode a string')
+    print('2) Decode a string')
+    print('Q) Quit')
+
+def get_input():
+    '''Interacts with user. Returns one of: '1', '2', '3', '4'.'''
+    question = input('Enter your selection ==> ')
+    return question
+
+if __name__ == '__main__':
+    play_again = True
+
+    while play_again:
+        print_menu()
+        question = get_input()
+
+        if question != '1' and question != '2' and question != 'Q':
+            print('Invald entry. Try again.')
+            print()
+            continue
+
+        elif question == '1':
+            print('Encrypyted:',encode_string())
+            print()
+
+        elif question == '2':
+            print('Decrypted:',decode_string())
+            print()
+
+        elif question == 'Q':
+            break
