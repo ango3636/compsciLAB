@@ -1,0 +1,51 @@
+def minimum_mpg():
+    while True:
+        try:
+            mpg = float(input('Enter the minimum mpg ==> '))
+            if mpg <= 0:
+                print('Fuel economy given must be greater than 0')
+            elif mpg > 100:
+                print('Fuel economy must be less than 100')
+            else:
+                return mpg
+        
+        except ValueError:
+            print('You must enter a number for the fuel economy')
+
+def open_file(prompt, mode='r'):
+    while True:
+        try:
+            filename = input(prompt)
+            file = open(filename, mode)
+            return file
+        except FileNotFoundError:
+            print('Could not open file',filename)
+        except IOError:
+            print('There is an IO Error',filename)
+
+mpg = minimum_mpg()
+
+print()
+
+file = open_file('Enter the name of the input vehicle file ==> ')
+reading = file.readlines()
+
+print()
+
+out_file = open_file('Enter the name of the file to output to ==> ',mode='w+')
+
+for line in reading:
+    line_list = list(line.split('\t'))
+    try:
+        if int(line_list[7]) >= mpg:
+            out_file.write('{} {}{:<40}{:>10}\n'.format(line_list[0],line_list[1],line_list[2],line_list[7]))
+    except ValueError:
+        out_file.write('Could not convert value {} for vehicle {} {} {}\n'.format(line_list[7],line_list[0],line_list[1],line_list[2]))
+
+readthis = out_file.readlines()
+
+for line in readthis:
+    print(line)
+
+out_file.close()
+file.close()
