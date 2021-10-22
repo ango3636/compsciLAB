@@ -38,14 +38,9 @@ for line in reading:
     line_list = list(line.split('\t'))
     try:
         if int(line_list[7]) >= mpg:
-            out_file.write('{} {}{:<40}{:>10}\n'.format(line_list[0],line_list[1],line_list[2],line_list[7]))
+            out_file.write('{:<5}{:<20}{:<40}{:>10}\n'.format(line_list[0],line_list[1],line_list[2],line_list[7]))
     except ValueError:
         out_file.write('Could not convert value {} for vehicle {} {} {}\n'.format(line_list[7],line_list[0],line_list[1],line_list[2]))
-
-readthis = out_file.readlines()
-
-for line in readthis:
-    print(line)
 
 out_file.close()
 file.close()
