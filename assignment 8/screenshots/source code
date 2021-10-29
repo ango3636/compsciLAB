@@ -1,0 +1,102 @@
+test_scores = []
+ass_scores = []
+
+import math
+
+while True:
+    print()
+    print('{:^35}'.format('Grade Menu'))
+    print('1 - Add Test\n2 - Remove Test\n3 - Clear Tests\n4 - Add Assignment\n5 - Remove Assignment\n6 - Clear Assignment\nD - Display Scores\nQ - Quit')
+    print()
+    menu_input = input('==> ')
+    if menu_input == '1':
+        new_test = float(input('Enter the new Test score 0-100 ==> '))
+        if new_test < 0 :
+            print('New test score must be greater than 0')
+            continue
+        else:
+            test_scores.append(new_test)
+            continue
+    elif menu_input == '2':
+        remove_test = float(input('Enter the Test score to remove 0-100 ==> '))
+        if remove_test not in test_scores:
+            print('Could not find that score to remove')
+            continue
+        else:
+            test_scores.remove(remove_test)
+    elif menu_input == '3':
+        test_scores.clear()
+        continue
+    elif menu_input == '4':
+        new_ass = float(input('Enter the new Assignment score 0-100 ==> '))
+        if new_ass < 0 :
+                print('New test score must be greater than 0')
+                continue
+        else:
+            ass_scores.append(new_ass)
+            continue
+    elif menu_input == '5':
+        remove_ass = float(input('Enter the Assignment score to remove 0-100 ==> '))
+        if remove_ass not in ass_scores:
+            print('Could not find that score to remove')
+            continue
+        else:
+            ass_scores.remove(remove_ass)
+            continue
+    elif menu_input == '6':
+        ass_scores.clear()
+        continue
+    elif menu_input == 'd' or menu_input == 'D':
+        print('Type{:>20}{:>10}{:>10}{:>10}{:>10}'.format('#','min','max','avg','std'))
+        print('='*65)
+        num_tests = len(test_scores)
+        num_ass = len(ass_scores)
+        if test_scores == []:
+            minT = 'n/a'
+            maxT = 'n/a'
+            avgT = 'n/a'
+        else:
+            minT = min(test_scores)
+            maxT = max(test_scores)
+            avgT = sum(test_scores)/num_tests
+
+        if ass_scores == []:
+            minA = 'n/a'
+            maxA = 'n/a'
+            avgA = 'n/a'
+        else:
+            minA = min(ass_scores)
+            maxA = max(ass_scores)
+            avgA = sum(ass_scores)/num_ass
+
+        list_std = []
+        for i in test_scores:
+            value = (i - avgT)**2
+            list_std.append(value)
+
+        std_ass = []
+        for i in ass_scores:
+            value2 = (i - avgA)**2
+            std_ass.append(value2)
+
+        if test_scores == []:
+            stdT = 'n/a'
+        else:
+            stdT = math.sqrt((sum(list_std)/num_tests))
+
+        if ass_scores == []:
+            stdA = 'n/a'
+        else:
+            stdA = math.sqrt((sum(std_ass)/num_ass))
+
+        print('Tests{:>19}{:>10}{:>10}{:>10.2f}{:>10.2f}'.format(num_tests,minT,maxT,avgT,stdT))
+        print('Programs{:>16}{:>10}{:>10}{:>10.2f}{:>10.2f}'.format(num_ass,minA,maxA,avgA,stdA))
+        print()
+        if test_scores == [] or ass_scores == []:
+            weighted = 0
+        else:
+            weighted = (avgT*0.6) + (avgA*0.4)
+        print('The weighed scores is    {:.2f}'.format(weighted))
+
+    elif menu_input == 'q' or menu_input == 'Q':
+        break
