@@ -1,0 +1,98 @@
+import csv
+
+def month_from_number(num):
+    months = {
+        1: 'January', 2: 'February', 3: 'March', 4: 'April',
+        5: 'May', 6: 'June', 7: 'July', 8: 'August',
+        9: 'September', 10: 'October', 11: 'November', 12: 'December'
+    }
+    return months[num]
+
+def read_in_file(filename):            
+    file = open(filename, encoding='utf-8')
+    file_csv = csv.reader(file)
+    all_rows = []
+    for line in file_csv:
+        all_rows.append(line)
+    del all_rows[0]
+    return all_rows
+
+def create_reported_date(a_list):
+    date_dict = {} 
+    for list in a_list:
+        if list[1] in date_dict:
+            date_dict[list[1]] = date_dict[list[1]] + 1
+        else:
+            date_dict[list[1]] = 1
+    return date_dict
+
+def create_reported_month(a_list):
+    date_dict = {} 
+    for list in a_list:
+        num = int(list[1][1])
+        if num in date_dict:
+            date_dict[num] = date_dict[num] + 1
+        else:
+            date_dict[num] = 1
+    return date_dict
+
+def create_offense_dict(a_list):
+    date_dict = {} 
+    for list in a_list:
+        if list[7] in date_dict:
+            date_dict[list[7]] = date_dict[list[7]] + 1
+        else:
+            date_dict[list[7]] = 1
+    return date_dict
+
+def create_offense_by_zip(a_list):
+    zip_dict = {}
+    for list in a_list:
+        zip_dict[list[7]] = {}
+    for crime,dict in zip_dict.items():
+        for list in a_list:
+            if list[7] == crime:
+                if list[13] in dict:
+                    dict[list[13]] += 1
+                else:
+                    dict[list[13]] = 1
+            else:
+                continue
+    return zip_dict
+
+if __name__ == '__main__':
+    while True:
+        try:
+            filename = input('Enter the name of the crime data file ==> ')
+            print()
+            a_list = read_in_file(filename)
+            date_dict = create_reported_date(a_list)
+            month_dict = create_reported_month(a_list)
+            offense = create_offense_dict(a_list)
+            byzip = create_offense_by_zip(a_list)
+
+            big = max(month_dict.values())
+            type = max(offense.values())
+
+            print('The month with the highest # of crimes is July with {} offenses'.format(big)) #fix july
+            print('The offense with the highest # of crimes is Domestic Violence Assault (Non-Aggravated) with {} offenses'.format(type)) #fix dm
+            print()
+            while True:
+                offense_input = input('Enter an offense ==> ')
+                search = byzip.get(offense_input,'Not a valid offense found, please try again')
+                if search == 'Not a valid offense found, please try again':
+                    continue
+                else:
+                    break
+            print()
+            print(offense_input,'offenses by Zip Code')
+            print('{:<20}{:>5}'.format('Zip Code','# Offenses'))
+            print('='*30)
+            for key,value in byzip.items():
+                if key == offense_input:
+                    for zip,occurence in value.items():
+                        print('{:<25}{:>5}'.format(zip, occurence))
+            break
+
+        except FileNotFoundError or IOError:
+            print('Coult not find the file specified. {} not found'.format(filename))
