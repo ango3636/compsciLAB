@@ -60,6 +60,9 @@ def create_offense_by_zip(a_list):
                 continue
     return zip_dict
 
+def order(elem):
+    return elem[1]
+
 if __name__ == '__main__':
     while True:
         try:
@@ -73,9 +76,18 @@ if __name__ == '__main__':
 
             big = max(month_dict.values())
             type = max(offense.values())
+            months_list = [[k,v] for k,v in month_dict.items()]
+            another = sorted(months_list, key=order)
+            bigmonth = another[-1][0]
+            monthname = month_from_number(bigmonth)
 
-            print('The month with the highest # of crimes is July with {} offenses'.format(big)) #fix july
-            print('The offense with the highest # of crimes is Domestic Violence Assault (Non-Aggravated) with {} offenses'.format(type)) #fix dm
+            offense_lst = [[k,v] for k,v in offense.items()]
+            again = sorted(offense_lst, key=order)
+            bigoff = again[-1][0]
+                
+
+            print('The month with the highest # of crimes is {} with {} offenses'.format(monthname,big)) #fix july
+            print('The offense with the highest # of crimes is {} with {} offenses'.format(bigoff,type)) #fix dm
             print()
             while True:
                 offense_input = input('Enter an offense ==> ')
