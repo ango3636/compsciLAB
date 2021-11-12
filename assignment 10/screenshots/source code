@@ -1,0 +1,72 @@
+def open_file(prompt, mode='r'):
+    while True:
+        try:
+            filename = input(prompt)
+            file = open(filename, mode)
+            return file
+        except FileNotFoundError or IOError:
+            print('Could not open file',filename)
+            print('Please Try Again')
+            print()
+
+def word_count(a_list):
+    date_dict = {} 
+    for word in a_list:
+        if word in date_dict:
+            date_dict[word] = date_dict[word] + 1
+        else:
+            date_dict[word] = 1
+    return date_dict
+
+def remove_3(list):
+    for word in list[:]:
+        if len(word) <= 3:
+            list.remove(word)
+    return list
+
+def order(elem):
+    return elem[1]
+
+def lowercase(word):
+    return word.lower()
+        
+file = open_file('Enter the name of the file to open ')
+text = file.read()
+text_lst = text.split()
+
+for word in text_lst[:]:
+    x = word.lower()
+    text_lst.remove(word)
+    text_lst.append(x)
+
+for word in text_lst[:]:
+    if word[-1] == '.' or word[-1] == '!' or word[-1] == ',':
+        new = word.replace(word[-1],'')
+        text_lst.remove(word)
+        text_lst.append(new)
+    if word == '--':
+        text_lst.remove(word)
+    
+print()
+print('{:^35}'.format('Most Frequently Used Words'))
+print('#{:>15}{:>20}'.format('Word','Freq.'))
+print('='*36)
+
+best_lst = remove_3(text_lst)
+
+words = word_count(best_lst)
+word_lst = [[k,v] for k,v in words.items()]
+wordsort = sorted(word_lst, key=order,reverse=True)
+
+num = 1
+for word in wordsort[0:10]:
+    print('{:2}{:>15}{:>19}'.format(num,word[0],word[1]))
+    num += 1
+
+once = 0
+for word in word_lst:
+    if word[-1] == 1:
+        once += 1
+print()
+print('There are {} words that occur only once'.format(once))
+print('There are {} unique words in the document'.format(len(word_lst)))
