@@ -1,0 +1,64 @@
+import math
+
+def total(values):
+    tot = float(sum(values))
+    return tot
+    
+def average(values):
+    if len(values) == 0:
+        return math.nan
+    avg = sum(values) / len(values)
+    return float(avg)
+
+def median(values):
+        if values == []:
+            raise ValueError
+        new = sorted(values)
+        n = len(new)
+        if n % 2 == 0:
+            mid1 = new[n//2]
+            mid2 = new[n//2 -1]
+            med = (mid1 + mid2) / 2
+        else:
+            med = new[n//2]
+        return med
+
+import unittest
+import Grades
+import math
+
+class Grade_Test(unittest.TestCase):
+    def test_total_returns_total_of_list(self):
+        result = Grades.total([1, 10, 22])
+        self.assertEqual(result, 33, "The total function should return 33")
+
+    def test_total_returns_0(self):
+        result = Grades.total([])
+        self.assertTrue(result == 0,0)
+
+    def test_average_one(self):
+        result = Grades.average([2,5,9])
+        self.assertAlmostEqual(result , 5.33333 , 5)
+
+    def test_average_two(self):
+        result = Grades.average([2, 15, 22, 9])
+        self.assertAlmostEqual(result , 12.0000 , 4)
+
+    def test_average_returns_nan(self):
+        result = Grades.average([])
+        self.assertIs(result,math.nan)
+
+    def test_median_even(self):
+        result = Grades.median([3,5,2,1])
+        self.assertAlmostEqual(result,2.5)
+
+    def test_median_odd(self):
+        result = Grades.median([4,7,2])
+        self.assertIs(result,4)
+
+    def test_median_empty(self):
+        with self.assertRaises(ValueError):
+            result = Grades.median([])
+        
+
+unittest.main()
